@@ -1,0 +1,1 @@
+# compare-forth-in-python-solutions
