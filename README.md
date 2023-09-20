@@ -8,6 +8,7 @@ This implementation provides basic arithmetic operations, stack manipulations, a
 
 ```
 .
+├── solutions_comparation.md  # A document comparing two different approachs to the problem that this repository intend to solve (pt-br)
 ├── Makefile                  # Makefile for common operations
 ├── README.md                 # This documentation
 ├── poetry.lock               # Lock file for dependencies (managed by Poetry)
