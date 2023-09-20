@@ -2,7 +2,7 @@ from src.base.command import Command
 
 class CustomCommand(Command):
     """
-    Concrete command class for custom defined words.
+    Command class for custom defined words.
     """
     def __init__(self, definition):
         self.definition = definition

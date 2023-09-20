@@ -2,7 +2,7 @@ from src.base.command import Command
 
 class AddCommand(Command):
     """
-    Concrete command class for addition operation.
+    Command class for addition operation.
     """
     def execute(self, stack):
         if len(stack) < 2:
@@ -13,7 +13,7 @@ class AddCommand(Command):
 
 class SubtractCommand(Command):
     """
-    Concrete command class for subtraction operation.
+    Command class for subtraction operation.
     """
     def execute(self, stack):
         if len(stack) < 2:
@@ -24,7 +24,7 @@ class SubtractCommand(Command):
 
 class MultiplyCommand(Command):
     """
-    Concrete command class for multiplication operation.
+    Command class for multiplication operation.
     """
     def execute(self, stack):
         if len(stack) < 2:
@@ -35,7 +35,7 @@ class MultiplyCommand(Command):
 
 class DivideCommand(Command):
     """
-    Concrete command class for division operation.
+    Command class for division operation.
     """
     def execute(self, stack):
         if len(stack) < 2:
