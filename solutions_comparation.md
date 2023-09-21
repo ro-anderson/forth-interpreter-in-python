@@ -22,16 +22,65 @@ Para obter uma perspectiva mais aprofundada (apesar de não ter sido solicitado 
 - Na solução de **dsardelic**, a lógica de palavras customizadas é processada em linha durante a avaliação. Isso pode representar desafios para definições de palavras personalizadas profundamente aninhadas ou recursivas.
 - **tugrul** pré-processa palavras personalizadas usando a função `substitute`. Isso garante que as palavras personalizadas sejam expandidas para suas operações básicas antes da execução, oferecendo potencialmente benefícios de desempenho para definições personalizadas extensas.
 
-### Manipulação de erros:
+### Manipulação de Erros:
+- **dsardelic**:
 
-Ambas as soluções lidam com erros de maneira eficaz, com exceções personalizadas claras que fornecem feedback significativo ao usuário.
+Pontos Fortes: Esta solução utiliza exceções personalizadas para lidar com cenários específicos, como a tentativa de dividir por zero ou quando uma operação não está definida. Isso oferece feedback detalhado ao usuário e torna o código mais robusto.
+Áreas de Melhoria: Uma maior variedade de exceções personalizadas para tratar cenários mais específicos, como tentativas de realizar operações de pilha sem elementos suficientes ou definições inválidas de palavras personalizadas.
+
+- **tugrul**:
+
+Pontos Fortes: Assim como a solução de dsardelic, tugrul também faz bom uso de exceções personalizadas para tratar situações como divisão por zero ou operações não definidas.
+
+Áreas de Melhoria: Seria interessante adicionar tratamentos para situações em que palavras personalizadas são definidas de forma recursiva, o que poderia causar loops infinitos. Também poderia beneficiar-se de exceções para casos onde palavras personalizadas sobrescrevem comandos padrão.
+
 
 ### Desempenho:
 
 - A correspondência de padrões de **dsardelic** pode oferecer pequenos benefícios de desempenho em relação às verificações condicionais tradicionais. No entanto, o tratamento em linha de palavras personalizadas pode representar desafios para definições profundamente aninhadas ou recursivas.
 - **tugrul** pré-processa palavras personalizadas, garantindo eficiência no ciclo de avaliação principal. No entanto, substituições extensas de palavras personalizadas podem gerar sobrecarga.
 
----
+Sugestões de Melhorias:
+- **dsardelic**:
+
+Modularidade: A lógica de tratamento de palavras personalizadas poderia ser extraída para uma função separada ou método para melhor clareza e manutenção.
+Extensibilidade: Considerando futuras extensões, seria útil ter uma estrutura mais modular para adicionar novas operações ou funcionalidades.
+- **tugrul**:
+
+Verificação de Palavras Personalizadas: Implementar verificações para garantir que palavras personalizadas não sobrescrevam comandos padrão.
+
+Refatoração:
+
+Ao analisar a solução do `tugrul`, notamos que a função `evaluate` é responsável por várias tarefas, incluindo a substituição de palavras personalizadas e a execução de operações. Uma refatoração poderia se concentrar em separar essas responsabilidades para melhorar a legibilidade e a modularidade do código.
+
+Por exemplo, a lógica de substituição das palavras personalizadas atualmente reside na função `substitute`. Esta função é chamada repetidamente até que não haja mais substituições a serem feitas. Uma refatoração potencial seria transformar essa lógica em uma função separada que garante que todas as palavras personalizadas sejam substituídas de uma vez:
+
+```python
+def expand_custom_words(tokens, definitions):
+    has_substitution = True
+    while has_substitution:
+        has_substitution = False
+        expanded_tokens = []
+        i = 0
+        while i < len(tokens):
+            token = tokens[i]
+            if token in definitions:
+                expanded_tokens.extend(definitions[token])
+                has_substitution = True
+            else:
+                expanded_tokens.append(token)
+            i += 1
+        tokens = expanded_tokens
+    return tokens
+```
+
+E então, na função `evaluate`, antes de processar os tokens, você faria:
+
+```python
+tokens = expand_custom_words(tokens, definitions)
+```
+
+Isso torna a função `evaluate` um pouco mais concisa, pois agora ela pode se concentrar principalmente na avaliação dos tokens, enquanto a lógica de expansão das palavras personalizadas é claramente separada em sua própria função.
 
 ### Conclusão:
 
